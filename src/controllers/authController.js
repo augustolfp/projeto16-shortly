@@ -7,7 +7,7 @@ export async function createUser(req, res) {
     const validation = newUserSchema.validate(newUser);
 
     if(validation.error) {
-        return res.status(422).send(validation.error.details);
+        return res.status(422).send(validation.error.details[0].message);
     }
 
 
