@@ -2,7 +2,6 @@ import connection from "../database/database.js";
 import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken";
 import { authUserSchema, newUserSchema } from "../schemas/authSchemas.js";
-import dayjs from "dayjs";
 
 export async function createUser(req, res) {
     const newUser = req.body;
