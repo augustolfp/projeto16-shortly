@@ -1,6 +1,6 @@
 CREATE TABLE "users" (
 	"id" serial PRIMARY KEY,
-	"name" varchar(120) NOT NULL UNIQUE,
+	"name" varchar(120) NOT NULL,
 	"email" varchar(120) NOT NULL UNIQUE,
 	"password" varchar(120) NOT NULL,
 	"createdAt" timestamp with time zone NOT NULL DEFAULT NOW()
@@ -22,8 +22,7 @@ CREATE TABLE "links" (
 CREATE TABLE "sessions" (
 	"id" serial NOT NULL,
 	"userId" integer NOT NULL REFERENCES "users"("id"),
-	"createdAt" timestamp with time zone NOT NULL DEFAULT NOW(),
-	"token" TEXT NOT NULL UNIQUE
+	"createdAt" timestamp with time zone NOT NULL DEFAULT NOW()
 );
 
 

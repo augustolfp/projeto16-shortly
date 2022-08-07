@@ -46,7 +46,7 @@ export async function loginUser(req, res) {
             res.status(401).send("Senha incorreta!");
             return;
         }
-        const session = await connection.query(`INSERT INTO sessions ("userId","createdAt","token") VALUES ($1,$2,$3)`,[query.rows[0].id,dayjs(),"notoken"]);
+        const session = await connection.query(`INSERT INTO sessions ("userId") VALUES ($1)`,[query.rows[0].id]);
         const token = jwt.sign({
             email:authUser.email,
             sessionId: session.id
