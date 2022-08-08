@@ -14,7 +14,12 @@ export async function getUserStats(req, res) {
             return;
         }
 
-        res.status(200).send(query.rows);
+        const userUrls = await connection.query(`SELECT l.id AS id, l."shortUrl" AS "shortUrl", l.website AS url, l."visitorsCounter" AS "visitCount" FROM links l WHERE l."userId" = $1`,[userId]);
+
+        res.status(200).send({
+            ...query.rows[0],
+            shortenedUrls: [...userUrls.rows]
+        });
         return;
     }
     catch(error) {
