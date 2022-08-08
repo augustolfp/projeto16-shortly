@@ -41,3 +41,19 @@ export async function findUrlById(req, res) {
         return res.status(404).send(error);
     }
 }
+
+export async function openUrl(req, res) {
+    const shortUrl = req.params.shortUrl;
+    try{
+        const query = await connection.query(`SELECT * FROM links WHERE links."shortUrl" = $1`,[shortUrl]);
+
+        if(query.rows.length === 0) {
+            return res.sendStatus(404);
+        }
+        
+        return res.redirect(query.rows[0].website);
+    }
+    catch(error) {
+        return res.sendStatus(404);
+    }
+}
