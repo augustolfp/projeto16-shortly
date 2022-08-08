@@ -59,3 +59,30 @@ export async function openUrl(req, res) {
         return res.sendStatus(404);
     }
 }
+
+export async function deleteUrl(req, res) {
+    const userId = res.locals.userId;
+    const urlId = req.params.id;
+
+    try{
+        const query = await connection.query(`SELECT * FROM links WHERE id = $1`,[urlId]);
+
+        if(query.rows.length === 0) {
+            res.status(404).send("Url não foi encontrada!");
+            return;
+        }
+
+        if(query.rows[0].userId != userId) {
+            res.status(401).send("Essa URL não pertence ao usuário logado!");
+            return;
+        }
+
+        await connection.query(`DELETE FROM links WHERE id = $1`,[urlId]);
+        res.sendStatus(204);
+        return;
+    }
+    catch(error) {
+        res.status(401).send("Ocorreu um erro!");
+        return;
+    }
+}
