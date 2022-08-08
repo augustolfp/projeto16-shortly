@@ -27,3 +27,15 @@ export async function getUserStats(req, res) {
         return;
     }
 }
+
+export async function rankUsers(req, res) {
+    try {
+        const query = await connection.query(`SELECT u.id AS id, u.name AS name, COUNT(l.id) AS "linksCount", SUM(l."visitorsCounter") AS "visitCount" 
+        FROM users u LEFT JOIN links l ON u.id = l."userId" GROUP BY u.id ORDER BY "visitCount" DESC LIMIT 10`);
+        res.status(200).send(query.rows);
+        return;
+    }
+    catch(error) {
+        res.status(404).send("Ocorreu um erro!");
+    }
+}
