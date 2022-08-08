@@ -25,3 +25,19 @@ export async function createShortUrl(req, res) {
         return;
     }
 }
+
+export async function findUrlById(req, res) {
+    const id = req.params.id;
+    try{
+        const query = await connection.query(`SELECT links.id AS id, links."shortUrl" AS "shortUrl", links.website AS url FROM links WHERE links.id = $1`,[id]);
+
+        if(query.rows.length === 0) {
+            return res.sendStatus(404);
+        }
+
+        return res.status(200).send(query.rows[0]);
+    }
+    catch(error) {
+        return res.status(404).send(error);
+    }
+}
