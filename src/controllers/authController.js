@@ -48,7 +48,8 @@ export async function loginUser(req, res) {
         const session = await connection.query(`INSERT INTO sessions ("userId") VALUES ($1)`,[query.rows[0].id]);
         const token = jwt.sign({
             email:authUser.email,
-            sessionId: session.id
+            sessionId: session.id,
+            userId: query.rows[0].id
         }, process.env.JWT_SECRET, {
             expiresIn: 60*30
         });

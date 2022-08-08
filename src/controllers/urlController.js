@@ -3,6 +3,7 @@ import { newUrlSchema } from "../schemas/urlSchemas.js";
 import { nanoid } from "nanoid";
 
 export async function createShortUrl(req, res) {
+    const userId = res.locals.userId;
     const url = req.body;
     const validation = newUrlSchema.validate(url);
 
@@ -13,7 +14,7 @@ export async function createShortUrl(req, res) {
     const shortUrl = nanoid(8);
 
     try{
-        const query = connection.query(`INSERT INTO links ("userId","website","shortUrl") VALUES ($1,$2,$3)`,[1,url.url,shortUrl]);
+        const query = connection.query(`INSERT INTO links ("userId","website","shortUrl") VALUES ($1,$2,$3)`,[userId,url.url,shortUrl]);
         res.status(201).send({
             shortUrl: shortUrl
         });
