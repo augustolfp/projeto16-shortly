@@ -51,9 +51,11 @@ export async function openUrl(req, res) {
             return res.sendStatus(404);
         }
         
+        await connection.query(`UPDATE links SET "visitorsCounter" = "visitorsCounter" + 1 WHERE id = $1`, [query.rows[0].id]);
         return res.redirect(query.rows[0].website);
     }
-    catch(error) {
+
+    catch (error) {
         return res.sendStatus(404);
     }
 }
